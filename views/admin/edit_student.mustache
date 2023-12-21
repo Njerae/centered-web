@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Student Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            padding: 10px;
+            text-decoration: none;
+            color: #fff;
+            margin-right: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #2980b9;
+        }
+
+        h1 {
+            margin-top: 150px;
+            text-align: center;
+            color: #3498db;
+        }
+
+        form {
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button, button {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        width: 100%; /* Optional: to make the button width consistent with input fields */
+        box-sizing: border-box; /* Optional: for consistent box sizing */
+        }
+
+        .button:hover, button:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+        <a href="/admin/dashboard">Go to Dashboard</a>
+        </nav>
+    </header>
+    
+    <h1>Edit Student Details</h1>
+    <form action="/admin/students/{{student._id}}" method="POST">
+        <!-- Hidden input to send the student ID along with the form -->
+        <input type="hidden" name="_id" value="{{student._id}}">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{student.email}}" required>
+        <br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+
+        <!-- Display existing goals -->
+        <h2>Existing Goals:</h2>
+        <ul>
+            {{#student.goals}}
+                <li>{{description}} ({{#completed}}Completed{{/completed}}{{^completed}}Not Completed{{/completed}})</li>
+            {{/student.goals}}
+        </ul>
+
+        <!-- Submit button -->
+        <input type="submit" value="Update Student" class="button">
+
+    </form>
+
+    <a href="/admin/students">Back to Students List</a>
+</body>
+</html>

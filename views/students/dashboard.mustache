@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+  
+  <style>
+    /* Common Theme Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    nav {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+    }
+    
+    h1, h2 {
+      font-size: 2em;
+      color: #3498db;
+    }
+
+    header {
+      background-color: #3498db;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin: 20px;
+      width: 100%;
+      position: relative;
+      bottom: 0;
+    }
+
+    header h1 {
+      color: #fff;
+    }
+
+    section {
+      padding: 20px;
+      text-align: left;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      cursor: pointer;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #3498db;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+    }
+
+    /* Dashboard Specific Styles */
+    .goal {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .goal p {
+      margin: 0;
+      flex-grow: 1;
+    }
+
+    .icons {
+      display: flex;
+      gap: 20px;
+      margin-left: 10px;
+    }
+
+    .complete-goal,
+    .delete-goal {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .completed {
+      text-decoration: line-through;
+    }
+
+    #my-goals-section {
+      border: 2px dotted #3498db;
+      padding: 30px;
+      width: 70vw;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1001; /* Above other content */
+    width: 20%;
+}
+
+.popup input[type="text"] {
+    display: block;
+    width: calc(100% - 20px); /* Adjusting width to account for padding */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.popup button {
+    padding: 10px;
+    margin-top: 10px;
+    width: calc(100% - 20px); /* Ensuring buttons are the same size */
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box; /* Include padding in width */
+}
+
+.popup button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+}
+
+.popup button[type="button"] {
+    background-color: lightgray;
+    color: black;
+}
+
+.popup button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.popup button[type="button"]:hover {
+    background-color: #d9d7d7; /* Darker gray on hover */
+}
+
+.popup #confirm-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.popup #confirm-delete:hover {
+    background-color: #c0392b; /* Slightly darker red */
+}
+
+  </style>
+</head>
+
+<body>
+<!-- Navigation Links -->
+    <nav>
+        <ul>
+            <li><a href="/" class="logo">Center<span style="color:violet;">ED</span></a></li>
+            <li><a href="/student/dashboard">Dashboard</a></li>
+            <li><a href="/student/opportunities">Opportunities</a></li>
+            <li><a href="/student/registered-opportunities">My registered opportunities</a></li>
+            <li><a href="/student/login">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <header>
+        <h1>Welcome to Your Dashboard, {{ studentEmail }}!</h1>
+    </header>
+
+    <!-- Confirmation Popup for Deletion -->
+    <div id="delete-confirmation-popup" class="popup">
+        <p>Are you sure you want to delete this goal?</p>
+        <button id="confirm-delete">Yes, Delete</button>
+        <button onclick="hideDeletePopup()">Cancel</button>
+    </div>
+
+    <!-- Modal Popup for Editing Goals -->
+    <div id="edit-goal-popup" class="popup">
+        <form id="edit-goal-form" action="" method="post">
+            <input type="text" name="description" id="edit-goal-description" />
+            <button type="submit">Save Changes</button>
+            <button type="button" onclick="hideEditPopup()">Cancel</button>
+        </form>
+    </div>
+
+    <!-- My Goals Section -->
+    <section id="my-goals-section">
+        <h2>My Goals</h2>
+        {{#goals}}
+        <div class="goal">
+            <p class="{{#completed}}completed{{/completed}}">{{ goalDescription }}</p>
+            <span class="icons">
+                <button class="complete-goal" data-goal-id="{{ id }}">
+                    {{#completed}}✅{{/completed}}
+                    {{^completed}}✔️{{/completed}}
+                </button>
+                <button class="edit-goal" onclick="showEditPopup('{{ id }}', '{{ goalDescription }}');">✏️</button>
+                <button class="delete-goal" onclick="confirmDeleteGoal('{{ id }}');">❌</button>
+            </span>
+        </div>
+        {{/goals}}
+
+        <button onclick="window.location='/students/goals/add';">Add New Goal</button>
+    </section>
+
+  <!-- Available Opportunities Section -->
+  <section>
+    <a href="/student/registered-opportunities">My registered opportunities</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2023 Coaching Platform</p>
+  </footer>
+
+  <script>
+  function confirmDeleteGoal(goalId) {
+            var popup = document.getElementById('delete-confirmation-popup');
+            popup.style.display = 'block';
+
+            document.getElementById('confirm-delete').onclick = function() {
+                deleteGoal(goalId);
+            };
+        }
+
+        function hideDeletePopup() {
+            document.getElementById('delete-confirmation-popup').style.display = 'none';
+        }
+
+        function showEditPopup(goalId, currentDescription) {
+            document.getElementById('edit-goal-popup').style.display = 'block';
+            document.getElementById('edit-goal-description').value = currentDescription;
+            document.getElementById('edit-goal-form').action = "/students/goals/edit/" + goalId;
+        }
+
+        function hideEditPopup() {
+            document.getElementById('edit-goal-popup').style.display = 'none';
+        }
+
+    function deleteGoal(goalId) {
+    if (!goalId) {
+      console.error('Goal ID is undefined or empty');
+      return;
+    }
+
+    fetch('/students/goals/remove/' + goalId, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      location.reload();
+    })
+    .catch(error => {
+      console.error('There was a problem with the deletion request:', error);
+    });
+  }
+
+  function toggleGoalCompletion(goalId, button) {
+    fetch('/students/goals/toggleCompletion/' + goalId, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ goalId: goalId })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if(data.completed) {
+        button.textContent = '✅';
+        button.parentElement.previousElementSibling.classList.add('completed');
+      } else {
+        button.textContent = '✔️';
+        button.parentElement.previousElementSibling.classList.remove('completed');
+      }
+    })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var completeButtons = document.querySelectorAll('.complete-goal');
+    completeButtons.forEach(function(button) {
+      button.addEventListener('click', function(event) {
+        event.preventDefault();
+        var goalId = this.getAttribute('data-goal-id');
+        toggleGoalCompletion(goalId, this);
+      });
+    });
+  });
+
+  function editGoal(goalId) {
+    fetch(`/students/goals/edit/${goalId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        description: "New description here"
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+      console.log('Goal updated successfully:', data);
+    })
+    .catch(error => {
+      console.error('Failed to update goal:', error);
+    });
+  }
+
+  function showEditForm(goalId, editButton) {
+    editButton.parentElement.previousElementSibling.style.display = 'none';
+    editButton.style.display = 'none';
+    document.getElementById('edit-form-' + goalId).style.display = 'block';
+  }
+
+  function hideEditForm(goalId) {
+    var form = document.getElementById('edit-form-' + goalId);
+    form.previousElementSibling.style.display = 'flex';
+    form.previousElementSibling.lastElementChild.style.display = 'block';
+    form.style.display = 'none';
+  }
+  </script>
+</body>
+</html>

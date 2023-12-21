@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Mentor Details</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            display: inline-block;
+            padding: 10px;
+            text-decoration: none;
+            color: #fff;
+            margin-right: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        h1 {
+            margin-top: 150px;
+            text-align: center;
+            color: #3498db;
+        }
+
+        form {
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+        .link{
+            text-decoration: none;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/admin/dashboard">Go to Dashboard</a>
+        </nav>
+    </header>
+    <h1>Edit Mentor Details</h1>
+    <form action="/admin/mentors/{{ mentor._id }}/update" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ mentor.name }}" required>
+
+        <label for="expertise">Expertise:</label>
+        <select id="expertise" name="expertise" required>
+            <option value="" disabled>Select Expertise</option>
+            {{#expertiseOptions}}
+                <option value="{{value}}" {{#selected}}selected{{/selected}}>{{label}}</option>
+            {{/expertiseOptions}}
+        </select>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ mentor.email }}" required>
+
+        <label for="password">New Password:</label>
+        <input type="password" id="password" name="password">
+
+        <input type="submit" value="Save changes">
+    </form>
+
+    <a href="/admin/mentors" class="link">Back to Mentor list</a>
+
+</body>
+</html>

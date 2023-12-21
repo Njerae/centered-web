@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Opportunities</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+    }
+
+    nav {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    h1 {
+      margin-top: 150px;
+      text-align: center;
+      color: #3498db;
+    }
+    
+    h2 {
+      margin-top: 50px;
+      text-align: center;
+      color: #3498db;
+    }
+
+    table {
+      margin: 20px auto;
+      width: 80%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+    p {
+      text-align: center;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #3498db;
+      color: #fff;
+    }
+
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    div a {      
+      width: 40vw;
+    }
+
+    a {
+      display: block;
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+      background-color: #3498db;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    a:hover {
+      background-color: #2980b9;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; /* Center items vertically */
+    }
+
+    .view-btn,
+    .delete-btn {
+      display: inline-block;
+      padding: 10px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-btn {
+      background-color: #2ecc71;
+      color: #fff;
+    }
+
+    .delete-btn {
+      background-color: transparent;
+      border: 2px solid #e74c3c;
+      color: #e74c3c;
+    }
+
+    .delete-btn:hover {
+      background-color: #e74c3c;
+      color: #fff;
+    }
+    .logo { 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #fff; 
+    }
+  </style>
+</head>
+<body>
+  <nav>
+      <ul>
+       <li><a href="/" class="logo">Center<span style="color:violet;">ED</span></a><li>     
+          <li><a href="/student/dashboard">Dashboard</a></li>
+          <li><a href="/student/opportunities">Opportunities</a></li>
+          <li><a href="/student/registered-opportunities">My registered opportunities</a><li>
+          <li><a href="/student/login">Logout</a><li>
+      </ul>
+  </nav>
+
+  <h1>{{title}}</h1>
+
+  <h2>Registered Opportunities</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#registeredOpportunityDetails}}
+        <tr>
+          <td>{{details.title}}</td>
+          <td>{{details.category}}</td>
+          <td>{{details.description}}</td>
+          <td class="actions">
+            <a class="delete-btn" href="/student/opportunities/{{opportunityId}}/to-cancel">Cancel </a>
+          </td>
+        </tr>
+      {{/registeredOpportunityDetails}}
+
+    </tbody>
+  </table>
+
+  {{^registeredOpportunityDetails}}
+    <p>You have not registered for any opportunities yet.</p>
+  {{/registeredOpportunityDetails}}
+  
+
+  <h2>Cancelled Opportunities</h2>
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#unregisteredOpportunityDetails}}
+        <tr>
+          <td>{{details.title}}</td>
+          <td>{{details.category}}</td>
+          <td>{{details.description}}</td>
+        </tr>
+      {{/unregisteredOpportunityDetails}}
+
+    </tbody>
+  </table>
+
+  {{^unregisteredOpportunityDetails}}
+    <p>You have not cancelled any opportunities yet.</p>
+  {{/unregisteredOpportunityDetails}}
+
+  
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Goal</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+        nav {
+        background-color: #3498db;
+        color: #fff;
+        padding: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+    }
+
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    nav a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    h1 {
+      text-align: center;
+      color: #3498db;
+    }
+
+    form {
+      max-width: 50%;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 15px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: #fff;
+      cursor: pointer;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+    .logo { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #fff; 
+            }
+    .back {
+      text-decoration: none;
+      color: #3498db;
+    }
+    section {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Links -->
+  <nav>
+    <ul>
+            <li><a href="/" class="logo">Center<span style="color:violet;">ED</span></a><li> 
+            <li><a href="/student/dashboard">Dashboard</a></li>
+            <li><a href="/student/opportunities">Opportunities</a></li>
+            <li><a href="/student/registered-opportunities">My registered opportunities</a></li>
+            <li><a href="/student/login">Logout</a><li>
+    </ul>
+  </nav>
+
+  <h1>Add a New Goal</h1>
+  <form action="/students/goals/add" method="post">
+    <label for="goal">Goal:</label>
+    <input type="text" id="goal" name="goal" required>
+    <button type="submit">Add Goal</button>
+  </form>
+
+<section>
+    <a href="/student/dashboard" class="back">Back to goals</a>
+  </section>
+  
+  </body>
+</html>

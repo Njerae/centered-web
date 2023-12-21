@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    .navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1em 5%;
+      background-color: #3498db;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .navigation a {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5em 1em;
+      font-weight: bold;
+    }
+
+    .navigation a.logo {
+      font-size: 1.5em;
+    }
+
+    .navigation a:hover {
+      color: violet;
+      text-decoration: none;
+    }
+
+    .center {
+      margin-top: 80px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      max-width: 500px;
+      margin: 2em auto;
+      padding: 2em;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-radius: 5px;
+    }
+
+    label {
+      display: block;
+      margin-top: 1em;
+    }
+
+    input[type=email],
+    input[type=password] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-top: 0.5em;
+      margin-bottom: 1em;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    input[type=submit]:hover {
+      background-color: #0056b3;
+    }
+
+    .navigation a:not(.logo):hover,
+    input[type=submit]:hover {
+      filter: brightness(85%);
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="navigation">
+    <a href="/" class="logo">Center<span style="color:violet;">ED</span></a>
+    <a href="/">About</a>
+    <a href="/student/login">Student Login</a>
+    <a href="/admin/login">Admin</a>
+  </div>
+
+  <div class="center">
+    <h1>Admin Login</h1>
+    <form action="/admin/login" method="POST">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <br>
+      <input type="submit" value="Login">
+    </form>
+  </div>
+</body>
+</html>
